@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<form>
+    <div class="mb-3">
+        <label class="form-label" for="noteTitle">Title:</label>
+        <input class="form-control"type="text" id="noteTitle" placeholder="Title"
+               asp-controller="Note" asp-action="Create" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label" for="noteContent">Content:</label>
+        <textarea class="form-control" id="noteContent" placeholder="Content"
+                  asp-controller="Note" asp-action="Create"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Create Note</button>
+</form>
