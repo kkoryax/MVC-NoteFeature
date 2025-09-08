@@ -2,7 +2,7 @@
 
 namespace NoteFeature.Models
 {
-    public class NoteModel
+    public class Note
     {
         [Key]
         public int Id { get; set; }
