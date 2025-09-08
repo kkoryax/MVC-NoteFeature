@@ -9,10 +9,12 @@
     <div class="mb-3">
         <label class="form-label" asp-for="Title">Title</label>
         <input class="form-control" type="text" placeholder="Title" asp-for="Title" />
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label class="form-label" asp-for="Content">Content</label>
         <textarea class="form-control" placeholder="Content" asp-for="Content"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
     </div>
     <button class="btn btn-primary" type="submit">
             <i class="bi bi-plus-lg"></i>

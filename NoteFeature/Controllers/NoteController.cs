@@ -28,8 +28,12 @@ namespace NoteFeature.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Note obj)
         {
-            _db.Notes.Add(obj);
-            _db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+        
+                _db.Notes.Add(obj);
+                _db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
@@ -51,12 +55,15 @@ namespace NoteFeature.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Note obj)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(obj);
+                obj.UpdatedAt = DateTime.Now;
+                _db.Notes.Update(obj);
+
+                _db.Entry(obj).Property(x => x.CreatedAt).IsModified = false;
+
+                _db.SaveChanges();
             }
-            _db.Notes.Update(obj);
-            _db.SaveChanges();
 
             return RedirectToAction("Index");
         }
@@ -75,6 +82,19 @@ namespace NoteFeature.Controllers
             _db.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+        public IActionResult Detail(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Notes.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            return View(obj);
         }
     }
 }

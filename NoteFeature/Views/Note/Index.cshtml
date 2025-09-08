@@ -37,6 +37,9 @@ else
                                 @note.CreatedAt.ToString("yyyy-MM-dd HH:mm")
                             </small>
                             <div>
+                                <a asp-controller="Note" asp-action="Detail" asp-route-id="@note.Id" class="btn btn-outline-primary btn-sm me-1" title="Detail">
+                                    <i class="bi bi-eye"> View Detail</i>
+                                </a>
                                 <a asp-controller="Note" asp-action="Edit" asp-route-id="@note.Id" class="btn btn-outline-primary btn-sm me-1" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
