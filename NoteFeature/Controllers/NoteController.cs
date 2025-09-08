@@ -51,7 +51,27 @@ namespace NoteFeature.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Note obj)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(obj);
+            }
             _db.Notes.Update(obj);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Notes.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Notes.Remove(obj);
             _db.SaveChanges();
 
             return RedirectToAction("Index");
