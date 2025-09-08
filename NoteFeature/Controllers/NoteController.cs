@@ -16,33 +16,22 @@ namespace NoteFeature.Controllers
 
         public IActionResult Index()
         {
-            var note_1 = new Note
-            {
-                Id = 1,
-                Title = "Note 1",
-                Content = "This is the content of note 1.",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
+            IEnumerable <Note> allNote = _db.Notes;
 
-            var note_2 = new Note
-            {
-                Id = 1,
-                Title = "Note 2",
-                Content = "This is the content of note 2.",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
-
-            List<Note> notes = new List<Note>();
-            notes.Add(note_1);
-            notes.Add(note_2);
-
-            return View(notes);
+            return View(allNote);
         }
         public IActionResult Create()
         {
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Note obj)
+        {
+            _db.Notes.Add(obj);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
