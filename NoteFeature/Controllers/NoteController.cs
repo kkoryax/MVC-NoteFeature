@@ -1,10 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NoteFeature.Data;
 using NoteFeature.Models;
 
 namespace NoteFeature.Controllers
 {
     public class NoteController : Controller
     {
+        private readonly ApplicationDBContext _db;
+
+        public NoteController(ApplicationDBContext db)
+        {
+            _db = db;
+        }
+        //DEPENDENCY INJECTION
+
         public IActionResult Index()
         {
             var note_1 = new Note

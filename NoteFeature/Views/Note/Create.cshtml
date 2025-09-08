@@ -1,9 +1,11 @@
-﻿@{
+﻿@model Note;
+
+@{
     ViewData["Title"] = "Create";
 }
 
 <h1>Create</h1>
-<form>
+<form method="POST asp=controller="Note" asp-action="Create">
     <div class="mb-3">
         <label class="form-label" for="noteTitle">Title</label>
         <input class="form-control"type="text" id="noteTitle" placeholder="Title"
