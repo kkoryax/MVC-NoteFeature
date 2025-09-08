@@ -1,39 +1,80 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NoteFeature.Data;
 using NoteFeature.Models;
 
 namespace NoteFeature.Controllers
 {
     public class NoteController : Controller
     {
+        private readonly ApplicationDBContext _db;
+
+        public NoteController(ApplicationDBContext db)
+        {
+            _db = db;
+        }
+        //DEPENDENCY INJECTION
+
         public IActionResult Index()
         {
-            var note_1 = new Note
-            {
-                Id = 1,
-                Title = "Note 1",
-                Content = "This is the content of note 1.",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
+            IEnumerable <Note> allNote = _db.Notes;
 
-            var note_2 = new Note
-            {
-                Id = 1,
-                Title = "Note 2",
-                Content = "This is the content of note 2.",
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
-            };
-
-            List<Note> notes = new List<Note>();
-            notes.Add(note_1);
-            notes.Add(note_2);
-
-            return View(notes);
+            return View(allNote);
         }
         public IActionResult Create()
         {
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Note obj)
+        {
+            _db.Notes.Add(obj);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public IActionResult Edit(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Notes.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Note obj)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(obj);
+            }
+            _db.Notes.Update(obj);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var obj = _db.Notes.Find(id);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.Notes.Remove(obj);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
