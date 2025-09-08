@@ -4,17 +4,17 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>สร้างโน๊ต</h1>
+<h1>Create Note</h1>
 <form method="POST" asp-controller="Note" asp-action="Create">
     <div class="mb-3">
-        <label class="form-label" for="noteTitle">Title</label>
-        <input class="form-control"type="text" id="noteTitle" placeholder="Title"
-               asp-controller="Note" asp-action="Create" />
+        <label class="form-label" asp-for="Title">Title</label>
+        <input class="form-control" type="text" placeholder="Title" asp-for="Title" />
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="noteContent">Content</label>
-        <textarea class="form-control" id="noteContent" placeholder="Content"
-                  asp-controller="Note" asp-action="Create"></textarea>
+        <label class="form-label" asp-for="Content">Content</label>
+        <textarea class="form-control" placeholder="Content" asp-for="Content"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
     </div>
     <button class="btn btn-primary" type="submit">
             <i class="bi bi-plus-lg"></i>
