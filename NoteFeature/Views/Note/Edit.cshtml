@@ -1,14 +1,13 @@
-﻿@model Note;
-
+﻿
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>สร้างโน๊ต</h1>
-<form method="POST" asp-controller="Note" asp-action="Create">
+<h1>แก้ไขโน๊ต</h1>
+<form method="POST" asp-controller ="Note" asp-action="Edit">
     <div class="mb-3">
         <label class="form-label" for="noteTitle">Title</label>
-        <input class="form-control"type="text" id="noteTitle" placeholder="Title"
+        <input class="form-control" type="text" id="noteTitle" placeholder="Title"
                asp-controller="Note" asp-action="Create" />
     </div>
     <div class="mb-3">
@@ -17,7 +16,8 @@
                   asp-controller="Note" asp-action="Create"></textarea>
     </div>
     <button class="btn btn-primary" type="submit">
-            <i class="bi bi-plus-lg"></i>
-            Create Note
+        <i class="bi bi-plus-lg"></i>
+        Create Note
     </button>
 </form>
+
