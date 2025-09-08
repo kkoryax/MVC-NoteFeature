@@ -4,17 +4,17 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit Note</h1>
+<h1 class="user-select-none">Edit Note</h1>
 <form method="POST" asp-controller ="Note" asp-action="Edit">
     <div class="mb-3">
-        <<label class="form-label" asp-for="Title">Title</label>
+        <<label class="form-label user-select-none" asp-for="Title">Title</label>
         <input class="form-control" type="text" placeholder="Title" asp-for="Title" />
     </div>
     <div class="mb-3">
-        <label class="form-label" asp-for="Content">Content</label>
+        <label class="form-label user-select-none" asp-for="Content">Content</label>
         <textarea class="form-control" placeholder="Content" asp-for="Content"></textarea>
     </div>
-    <button class="btn btn-primary" type="submit">
+    <button class="btn btn-success" type="submit">
         <i class="bi bi-pencil"></i>
         Edit
     </button>

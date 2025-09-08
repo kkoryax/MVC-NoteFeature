@@ -4,15 +4,19 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create Note</h1>
+<h1 class="user-select-none">Create Note</h1>
 <form method="POST" asp-controller="Note" asp-action="Create">
     <div class="mb-3">
-        <label class="form-label" asp-for="Title">Title</label>
+        <label class="form-label" asp-for="Title">
+            Title<span class="text-danger">*</span>
+        </label>
         <input class="form-control" type="text" placeholder="Title" asp-for="Title" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label class="form-label" asp-for="Content">Content</label>
+        <label class="form-label" asp-for="Content">
+            Content<span class="text-danger">*</span>
+        </label>
         <textarea class="form-control" placeholder="Content" asp-for="Content"></textarea>
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>

@@ -36,22 +36,24 @@ else
                                 <i class="bi bi-calendar3"></i>
                                 @note.CreatedAt.ToString("yyyy-MM-dd HH:mm")
                             </small>
-                            <div>
+                            <div class="d-flex align-items-center">
                                 <a asp-controller="Note" asp-action="Detail" asp-route-id="@note.Id" class="btn btn-outline-primary btn-sm me-1" title="Detail">
-                                    <i class="bi bi-eye"> View Detail</i>
+                                    <i class="bi bi-eye"></i>
                                 </a>
-                                <a asp-controller="Note" asp-action="Edit" asp-route-id="@note.Id" class="btn btn-outline-primary btn-sm me-1" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <button type="button"
-                                        class="btn btn-outline-danger btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"
-                                        data-note-id="@note.Id"
-                                        data-note-title="@note.Title"
-                                        title="Delete">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                <div class="d-flex align-items-center">
+                                    <a asp-controller="Note" asp-action="Edit" asp-route-id="@note.Id" class="btn btn-outline-primary btn-sm me-1" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-note-id="@note.Id"
+                                            data-note-title="@note.Title"
+                                            title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
