@@ -33,3 +33,19 @@ body {
     color: #0d6efd !important;
     border-radius: .5rem;
 }
+
+.note-card {
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.note-card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    transform: translateY(-4px) scale(1.02);
+}
+.card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 3.6em; /* Adjust based on font-size/line-height */
+}
