@@ -63,22 +63,21 @@ namespace NoteFeature.Controllers
 
             return RedirectToAction("Index");
         }
-        //public IActionResult Delete(int? id)
-        //{
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var obj = _db.Notes.Find(id);
-        //    if (obj == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    _db.Notes.Remove(obj);
-        //    _db.SaveChanges();
+        public IActionResult Delete(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var note = _noteRepo.GetNoteByID(id.Value).FirstOrDefault();
+            if (note == null)
+            {
+                return NotFound();
+            }
+            _noteRepo.DeleteNote(note);
 
-        //    return RedirectToAction("Index");
-        //}
+            return RedirectToAction("Index");
+        }
         public IActionResult Detail(int? id)
         {
             if (id == null || id == 0)

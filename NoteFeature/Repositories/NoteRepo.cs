@@ -11,6 +11,7 @@ namespace NoteFeature.Repositories
         List<Note> GetNoteByID(int id);
         void AddNote(Note note);
         void UpdateNote(Note note);
+        void DeleteNote(Note note);
     }
     public class NoteRepo : INoteRepo
     {
@@ -53,6 +54,11 @@ namespace NoteFeature.Repositories
 
             _db.Entry(note).Property(x => x.CreatedAt).IsModified = false;
 
+            _db.SaveChanges();
+        }
+        public void DeleteNote(Note note)
+        {
+            _db.Notes.Remove(note);
             _db.SaveChanges();
         }
     }
