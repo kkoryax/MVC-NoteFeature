@@ -9,6 +9,7 @@ namespace NoteFeature.Repositories
         List<Note> GetAllNote();
         List<Note> GetNotesByTitle(string title);
         List<Note> GetNoteByID(int id);
+        void AddNote(Note note);
     }
     public class NoteRepo : INoteRepo
     {
@@ -38,6 +39,11 @@ namespace NoteFeature.Repositories
                 .Where(n => n.Id == id)
                 .ToList(); // Note filtered by ID
             return noteById;
+        }
+        public void AddNote(Note note)
+        {
+            _db.Notes.Add(note);  //Add data to DB
+            _db.SaveChanges();
         }
     }
 }

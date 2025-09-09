@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NoteFeature.Data;
+using NoteFeature.Migrations;
 using NoteFeature.Models.NoteModel;
 using NoteFeature.Repositories;
 
@@ -31,19 +32,17 @@ namespace NoteFeature.Controllers
         {
             return View();
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Create(Note obj)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Note note)
+        {
+            if (ModelState.IsValid)
+            {
+                _noteRepo.AddNote(note);
+            }
 
-        //        _db.Notes.Add(obj);
-        //        _db.SaveChanges();
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}
+            return RedirectToAction("Index");
+        }
         public IActionResult Edit()
         {
             return View();
