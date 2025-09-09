@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="d-flex justify-content-between align-items-center mb-4 user-select-none">
     <h1 class="display-5 mb-0">
         <i class="bi bi-journal-text text-primary"></i> My Notes
     </h1>
@@ -13,9 +13,39 @@
     </a>
 </div>
 
+<div class="row align-items-center mb-4 user-select-none">
+    <!-- Search -->
+    <div class="col-md-4 mb-2">
+        <p>Search</p>
+        <input class="form-control" type="text" name="name" value="" />
+    </div>
+
+    <!-- Sort by -->
+    <div class="col-md-4 mb-2">
+        <p>Sort by</p>
+        <select class="form-select">
+            <option selected>---- Open select menu ----</option>
+            <option value="1">Created Date</option>
+            <option value="2">Updated Date</option>
+        </select>
+    </div>
+
+    <!-- Date from - To -->
+    <div class="col-md-4 mb-2">
+        <p class="">Date from - To</p>
+        <input class="form-control mb-2" type="date"
+               placeholder="From date"
+               value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+        <input class="form-control mb-2" type="date"
+               placeholder="To Date" />
+    </div>
+    <hr />
+</div>
+
+
 @if (!Model.Any())
 {
-    <div class="alert alert-info text-center">
+    <div class="alert alert-info text-center user-select-none">
         <i class="bi bi-info-circle"></i> No notes found. Click <strong>Add Note</strong> to create your first note!
     </div>
 }
@@ -26,32 +56,41 @@ else
         {
             <div class="col-12 col-sm-6 col-md-4">
                 <div class="card h-100 shadow-sm border-0 note-card">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title mb-2">
-                            <i class="bi bi-sticky text-warning"></i> @note.Title
+                    <div class="card-body d-flex flex-column p-4">
+                        <h5 class="card-title mb-2 user-select-none">
+                            <i class="bi bi-sticky text-warning"></i>
+                            @note.Title
+                            @if (@note.UpdatedAt != null)
+                            {
+                                <small class="text-muted">
+                                    <span class="badge bg-black">edit</span>
+                                </small>
+                            }
                         </h5>
-                        <p class="card-text flex-grow-1">@note.Content</p>
+                        <p class="card-text flex-grow-1 user-select-none">@note.Content</p>
                         <div class="d-flex justify-content-between align-items-center mt-3">
-                            <small class="text-muted">
+                            <small class="text-muted user-select-none">
                                 <i class="bi bi-calendar3"></i>
                                 @note.CreatedAt.ToString("yyyy-MM-dd HH:mm")
                             </small>
-                            <div>
+                            <div class="d-flex align-items-center">
                                 <a asp-controller="Note" asp-action="Detail" asp-route-id="@note.Id" class="btn btn-outline-primary btn-sm me-1" title="Detail">
-                                    <i class="bi bi-eye"> View Detail</i>
+                                    <i class="bi bi-eye"></i>
                                 </a>
-                                <a asp-controller="Note" asp-action="Edit" asp-route-id="@note.Id" class="btn btn-outline-primary btn-sm me-1" title="Edit">
-                                    <i class="bi bi-pencil"></i>
-                                </a>
-                                <button type="button"
-                                        class="btn btn-outline-danger btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteModal"
-                                        data-note-id="@note.Id"
-                                        data-note-title="@note.Title"
-                                        title="Delete">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                <div class="d-flex align-items-center">
+                                    <a asp-controller="Note" asp-action="Edit" asp-route-id="@note.Id" class="btn btn-outline-primary btn-sm me-1" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-outline-danger btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal"
+                                            data-note-id="@note.Id"
+                                            data-note-title="@note.Title"
+                                            title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

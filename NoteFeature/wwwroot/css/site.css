@@ -49,3 +49,11 @@ body {
     text-overflow: ellipsis;
     min-height: 3.6em; /* Adjust based on font-size/line-height */
 }
+
+textarea {
+    field-sizing: content;
+}
+
+.mt-n4 {
+    margin-top: -1.5rem;
+}
