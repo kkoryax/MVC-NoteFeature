@@ -1,11 +1,43 @@
-﻿namespace NoteFeature.Repositories
+﻿using NoteFeature.Models.NoteModel;
+using Microsoft.AspNetCore.Mvc;
+using NoteFeature.Data;
+
+namespace NoteFeature.Repositories
 {
     public interface INoteRepo
     {
-        //List Note items from database (Api route)
+        List<Note> GetAllNote();
+        List<Note> GetNotesByTitle(string title);
+        List<Note> GetNoteByID(int id);
     }
     public class NoteRepo : INoteRepo
     {
-        //readonly db
+        private readonly ApplicationDBContext _db;
+
+        public NoteRepo(ApplicationDBContext db)
+        {
+            _db = db;
+        }
+
+        public List<Note> GetAllNote()
+        {
+            var allNote = _db.Notes.ToList(); // All Note
+
+            return allNote;
+        }
+        public List<Note> GetNotesByTitle(string title)
+        {
+            var notesByTitle = _db.Notes
+                .Where(n => n.Title.Contains(title))
+                .ToList(); // Notes filtered by title
+            return notesByTitle;
+        }
+        public List<Note> GetNoteByID(int id)
+        {
+            var noteById = _db.Notes
+                .Where(n => n.Id == id)
+                .ToList(); // Note filtered by ID
+            return noteById;
+        }
     }
 }
