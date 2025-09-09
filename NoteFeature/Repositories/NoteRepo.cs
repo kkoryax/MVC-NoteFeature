@@ -24,26 +24,29 @@ namespace NoteFeature.Repositories
 
         public List<Note> GetAllNote()
         {
-            var allNote = _db.Notes.ToList(); // All Note
+            var allNote = _db.Notes
+                            .Where(n => n.IsDeleted == false)
+                            .ToList(); // All Note
 
             return allNote;
         }
         public List<Note> GetNotesByTitle(string title)
         {
             var notesByTitle = _db.Notes
-                .Where(n => n.Title.Contains(title))
-                .ToList(); // Notes filtered by title
+                                .Where(n => n.Title.Contains(title) && n.IsDeleted == false)
+                                .ToList(); // Notes filtered by title
             return notesByTitle;
         }
         public List<Note> GetNoteByID(int id)
         {
             var noteById = _db.Notes
-                .Where(n => n.Id == id)
+                .Where(n => n.Id == id && n.IsDeleted == false)
                 .ToList(); // Note filtered by ID
             return noteById;
         }
         public void AddNote(Note note)
         {
+            note.IsDeleted = false;
             _db.Notes.Add(note);  //Add data to DB
             _db.SaveChanges();
         }
@@ -58,7 +61,9 @@ namespace NoteFeature.Repositories
         }
         public void DeleteNote(Note note)
         {
-            _db.Notes.Remove(note);
+            note.IsDeleted = true;
+            note.UpdatedAt = DateTime.Now;
+            _db.Notes.Update(note);
             _db.SaveChanges();
         }
     }
