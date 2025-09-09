@@ -1,4 +1,5 @@
-﻿@model NoteFeature.Models.Note
+﻿@using NoteFeature.Models.NoteModel
+@model Note
 
 @{
     ViewData["Title"] = "Detail";
@@ -12,7 +13,7 @@
             @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")
             @if (@Model.UpdatedAt != null)
             {
-                <span class="pl-5"> | updated at</span>
+                <span class="pl-5"> | latest updated at</span>
                 @Model.UpdatedAt?.ToString("yyyy-MM-dd HH:mm")
             } 
         </small>

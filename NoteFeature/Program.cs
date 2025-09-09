@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NoteFeature.Data;
+using NoteFeature.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDBContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+builder.Services.AddScoped<INoteRepo, NoteRepo>();
 
 var app = builder.Build();
 

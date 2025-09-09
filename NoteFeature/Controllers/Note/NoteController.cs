@@ -1,24 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NoteFeature.Data;
-using NoteFeature.Models;
+using NoteFeature.Migrations;
+using NoteFeature.Models.NoteModel;
+using NoteFeature.Repositories;
 
 namespace NoteFeature.Controllers
 {
     public class NoteController : Controller
     {
-        private readonly ApplicationDBContext _db;
+        private readonly INoteRepo _noteRepo;
 
-        public NoteController(ApplicationDBContext db)
+        public NoteController(INoteRepo noteRepo)
         {
-            _db = db;
+            _noteRepo = noteRepo;
         }
-        //DEPENDENCY INJECTION
+        //DEPENDENCY INJECTION from Repositoies Constructor
 
         public IActionResult Index()
         {
-            IEnumerable <Note> allNote = _db.Notes;
+            var notes = _noteRepo.GetAllNote();
 
-            return View(allNote);
+            // Debug (Data check)
+            //foreach (var note in notes)
+            //{
+            //    Console.WriteLine($"Id: {note.Id}, Title: {note.Title}, Content: {note.Content}");
+            //}
+
+            return View(notes);
         }
         public IActionResult Create()
         {
@@ -26,13 +34,11 @@ namespace NoteFeature.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Note obj)
+        public IActionResult Create(Note note)
         {
             if (ModelState.IsValid)
             {
-        
-                _db.Notes.Add(obj);
-                _db.SaveChanges();
+                _noteRepo.AddNote(note);
             }
 
             return RedirectToAction("Index");
@@ -43,26 +49,16 @@ namespace NoteFeature.Controllers
             {
                 return NotFound();
             }
-            var obj = _db.Notes.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-
-            return View(obj);
+            var note = _noteRepo.GetNoteByID(id.Value).FirstOrDefault();
+            return View(note);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Note obj)
+        public IActionResult Edit(Note note)
         {
             if (ModelState.IsValid)
             {
-                obj.UpdatedAt = DateTime.Now;
-                _db.Notes.Update(obj);
-
-                _db.Entry(obj).Property(x => x.CreatedAt).IsModified = false;
-
-                _db.SaveChanges();
+                _noteRepo.UpdateNote(note);
             }
 
             return RedirectToAction("Index");
@@ -73,13 +69,12 @@ namespace NoteFeature.Controllers
             {
                 return NotFound();
             }
-            var obj = _db.Notes.Find(id);
-            if (obj == null)
+            var note = _noteRepo.GetNoteByID(id.Value).FirstOrDefault();
+            if (note == null)
             {
                 return NotFound();
             }
-            _db.Notes.Remove(obj);
-            _db.SaveChanges();
+            _noteRepo.DeleteNote(note);
 
             return RedirectToAction("Index");
         }
@@ -89,12 +84,8 @@ namespace NoteFeature.Controllers
             {
                 return NotFound();
             }
-            var obj = _db.Notes.Find(id);
-            if (obj == null)
-            {
-                return NotFound();
-            }
-            return View(obj);
+            var note = _noteRepo.GetNoteByID(id.Value).FirstOrDefault();
+            return View(note);
         }
     }
 }

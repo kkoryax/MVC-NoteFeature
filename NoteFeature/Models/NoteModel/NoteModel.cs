@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace NoteFeature.Models
+namespace NoteFeature.Models.NoteModel
 {
     public class Note
     {
@@ -16,5 +16,6 @@ namespace NoteFeature.Models
         public string Content { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }
