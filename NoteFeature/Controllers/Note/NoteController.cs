@@ -21,10 +21,10 @@ namespace NoteFeature.Controllers
             var notes = _noteRepo.GetAllNote();
 
             // Debug (Data check)
-            foreach (var note in notes)
-            {
-                Console.WriteLine($"Id: {note.Id}, Title: {note.Title}, Content: {note.Content}");
-            }
+            //foreach (var note in notes)
+            //{
+            //    Console.WriteLine($"Id: {note.Id}, Title: {note.Title}, Content: {note.Content}");
+            //}
 
             return View(notes);
         }
@@ -43,26 +43,22 @@ namespace NoteFeature.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
-            return View();
+            var note = _noteRepo.GetNoteByID(id).FirstOrDefault();
+            return View(note);
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Edit(Note obj)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        obj.UpdatedAt = DateTime.Now;
-        //        _db.Notes.Update(obj);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Note note)
+        {
+            if (ModelState.IsValid)
+            {
+                _noteRepo.UpdateNote(note);
+            }
 
-        //        _db.Entry(obj).Property(x => x.CreatedAt).IsModified = false;
-
-        //        _db.SaveChanges();
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}
+            return RedirectToAction("Index");
+        }
         //public IActionResult Delete(int? id)
         //{
         //    if (id == null || id == 0)

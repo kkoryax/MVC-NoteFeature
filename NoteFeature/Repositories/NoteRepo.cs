@@ -10,6 +10,7 @@ namespace NoteFeature.Repositories
         List<Note> GetNotesByTitle(string title);
         List<Note> GetNoteByID(int id);
         void AddNote(Note note);
+        void UpdateNote(Note note);
     }
     public class NoteRepo : INoteRepo
     {
@@ -43,6 +44,15 @@ namespace NoteFeature.Repositories
         public void AddNote(Note note)
         {
             _db.Notes.Add(note);  //Add data to DB
+            _db.SaveChanges();
+        }
+        public void UpdateNote(Note note)
+        {
+            note.UpdatedAt = DateTime.Now;
+            _db.Notes.Update(note);
+
+            _db.Entry(note).Property(x => x.CreatedAt).IsModified = false;
+
             _db.SaveChanges();
         }
     }
