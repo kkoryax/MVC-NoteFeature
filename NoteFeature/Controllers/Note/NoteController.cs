@@ -43,9 +43,13 @@ namespace NoteFeature.Controllers
 
             return RedirectToAction("Index");
         }
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id)
         {
-            var note = _noteRepo.GetNoteByID(id).FirstOrDefault();
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var note = _noteRepo.GetNoteByID(id.Value).FirstOrDefault();
             return View(note);
         }
         [HttpPost]
@@ -75,18 +79,14 @@ namespace NoteFeature.Controllers
 
         //    return RedirectToAction("Index");
         //}
-        //public IActionResult Detail(int? id)
-        //{
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var obj = _db.Notes.Find(id);
-        //    if (obj == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(obj);
-        //}
+        public IActionResult Detail(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var note = _noteRepo.GetNoteByID(id.Value).FirstOrDefault();
+            return View(note);
+        }
     }
 }
