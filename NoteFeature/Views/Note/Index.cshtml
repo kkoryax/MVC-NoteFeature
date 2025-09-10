@@ -34,12 +34,21 @@
         <input class="form-control" type="text" name="SearchTitle" value="@filter.SearchTitle" placeholder="Search by title" />
     </div>
 
-    <div class="col-md-3">
-        <label>Sort by</label>
+    @* <div class="col-md-2 mb-2">
+        <label>Sort By</label>
         <select class="form-select" name="SortBy">
             <option value="">-- Select --</option>
-            <option value="CreatedAt" selected="@(filter.SortBy == "CreatedAt")">Created Date (Newest to oldest)</option>
-            <option value="UpdatedAt" selected="@(filter.SortBy == "UpdatedAt")">Updated Date (Newest to oldest)</option>
+            <option value="CreatedAt" selected="@(filter.SortBy == "CreatedAt" ? "selected" : "")">Created Date</option>
+            <option value="UpdatedAt" selected="@(filter.SortBy == "UpdatedAt" ? "selected" : "")">Updated Date</option>
+        </select>
+    </div> *@
+    <!-- Remove reason: protect user from confuse-->
+
+    <div class="col-md-2">
+        <label>Sort by</label>
+        <select class="form-select" name="SortDirection">
+            <option value="Desc" selected="@(filter.SortDirection == "Desc")">Newest to oldest</option>
+            <option value="Asc" selected="@(filter.SortDirection == "Asc")">Oldest to Newest</option>
         </select>
     </div>
 
@@ -49,13 +58,14 @@
     </div>
 
     <div class="col-md-2">
-        <label>To</label>
+        <label>To</label>   
         <input class="form-control" type="date" name="ToDate" value="@toDateStr" />
     </div>
 
     <div class="col-md-1 d-flex align-items-end">
         <button type="submit" class="btn btn-primary">Search</button>
     </div>
+    <hr />
 </form>
 
 

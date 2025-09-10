@@ -88,12 +88,26 @@ namespace NoteFeature.Repositories
                 query = query.Where(n => n.CreatedAt <= filter.ToDate.Value.AddDays(1).AddMinutes(-1).AddSeconds(-1)); //To 23:59:59
 
             // Sort
-            query = filter.SortBy switch
+            //if (filter.SortBy == "CreatedAt")
+            //{
+            //    query = filter.SortDirection == "Asc" ? query.OrderBy(n => n.CreatedAt) : query.OrderByDescending(n => n.CreatedAt);
+            //}
+            //else if (filter.SortBy == "UpdatedAt")
+            //{
+            //    query = filter.SortDirection == "Asc" ? query.OrderBy(n => n.UpdatedAt) : query.OrderByDescending(n => n.UpdatedAt);
+            //}
+            //else
+            //{
+            //    query = query.OrderByDescending(n => n.CreatedAt); // default
+            //}
+            if (filter.SortDirection == "Asc")
             {
-                "CreatedAt" => query.OrderByDescending(n => n.CreatedAt),
-                "UpdatedAt" => query.OrderByDescending(n => n.UpdatedAt),
-                _ => query.OrderByDescending(n => n.CreatedAt)
-            };
+                query = query.OrderBy(n => n.CreatedAt);
+            }
+            else
+            {
+                query = query.OrderByDescending(n => n.CreatedAt); // default
+            }
 
             return query.ToList();
         }

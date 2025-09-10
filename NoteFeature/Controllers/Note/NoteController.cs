@@ -27,7 +27,7 @@ namespace NoteFeature.Controllers
 
             List<Note> notes;
             if (!string.IsNullOrEmpty(filter.SearchTitle)
-                || !string.IsNullOrEmpty(filter.SortBy)
+                || !string.IsNullOrEmpty(filter.SortDirection)
                 || filter.FromDate.HasValue
                 || filter.ToDate.HasValue)
             {
