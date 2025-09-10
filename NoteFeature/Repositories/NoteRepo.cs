@@ -1,6 +1,8 @@
-﻿using NoteFeature.Models.NoteModel;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NoteFeature.Data;
+using NoteFeature.Models.FilterModel;
+using NoteFeature.Models.NoteModel;
+using System.Globalization;
 
 namespace NoteFeature.Repositories
 {
@@ -12,6 +14,7 @@ namespace NoteFeature.Repositories
         void AddNote(Note note);
         void UpdateNote(Note note);
         void DeleteNote(Note note);
+        List<Note> FilterNote(IndexFilterModel filter);
     }
     public class NoteRepo : INoteRepo
     {
@@ -65,6 +68,34 @@ namespace NoteFeature.Repositories
             note.UpdatedAt = DateTime.Now;
             _db.Notes.Update(note);
             _db.SaveChanges();
+        }
+        public List<Note> FilterNote(IndexFilterModel filter)
+        {
+            // Start query
+            var query = _db.Notes.AsQueryable();
+
+            // Filter: Not deleted
+            query = query.Where(n => !n.IsDeleted);
+
+            // Filter: title
+            if (!string.IsNullOrEmpty(filter.SearchTitle))
+                query = query.Where(n => n.Title.Contains(filter.SearchTitle));
+
+            // Filter: date range
+            if (filter.FromDate.HasValue)
+                query = query.Where(n => n.CreatedAt >= filter.FromDate.Value); //From 00:00:00
+            if (filter.ToDate.HasValue)
+                query = query.Where(n => n.CreatedAt <= filter.ToDate.Value.AddDays(1).AddMinutes(-1).AddSeconds(-1)); //To 23:59:59
+
+            // Sort
+            query = filter.SortBy switch
+            {
+                "CreatedAt" => query.OrderByDescending(n => n.CreatedAt),
+                "UpdatedAt" => query.OrderByDescending(n => n.UpdatedAt),
+                _ => query.OrderByDescending(n => n.CreatedAt)
+            };
+
+            return query.ToList();
         }
     }
 }

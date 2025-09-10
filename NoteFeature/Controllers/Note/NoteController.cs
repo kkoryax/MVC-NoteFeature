@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NoteFeature.Data;
 using NoteFeature.Migrations;
+using NoteFeature.Models.FilterModel;
+using NoteFeature.Models.ViewModels;
 using NoteFeature.Models.NoteModel;
 using NoteFeature.Repositories;
 
@@ -16,17 +18,33 @@ namespace NoteFeature.Controllers
         }
         //DEPENDENCY INJECTION from Repositoies Constructor
 
-        public IActionResult Index()
+        public IActionResult Index(IndexFilterModel filter)
         {
-            var notes = _noteRepo.GetAllNote();
+            if (filter == null)
+            {
+                filter = new IndexFilterModel();
+            }
 
-            // Debug (Data check)
-            //foreach (var note in notes)
-            //{
-            //    Console.WriteLine($"Id: {note.Id}, Title: {note.Title}, Content: {note.Content}");
-            //}
+            List<Note> notes;
+            if (!string.IsNullOrEmpty(filter.SearchTitle)
+                || !string.IsNullOrEmpty(filter.SortBy)
+                || filter.FromDate.HasValue
+                || filter.ToDate.HasValue)
+            {
+                notes = _noteRepo.FilterNote(filter);
+            }
+            else
+            {
+                notes = _noteRepo.GetAllNote();
+            }
 
-            return View(notes);
+            var ViewModel = new IndexViewModel
+            {
+                Notes = notes,
+                Filter = filter
+            };
+
+            return View(ViewModel);
         }
         public IActionResult Create()
         {
