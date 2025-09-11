@@ -11,6 +11,26 @@ var note = {
     init: () => {
         pagination.init("pagination", "paginationPerPageSelect", listObj.total, listObj.perPage, listObj.page, note.onPageChange)
         note.getNoteList(true);
+
+        $("filterSearch").on("change", function () {
+            listObj.page = 1;
+            note.getNoteList(true);
+        });
+
+        $("filterSort").on("change", function () {
+            listObj.page = 1;
+            note.getNoteList(true);
+        });
+
+        $("filterDateFrom").on("change", function () {
+            listObj.page = 1;
+            note.getNoteList(true);
+        });
+
+        $("filterDateTo").on("change", function () {
+            listObj.page = 1;
+            note.getNoteList(true);
+        });
     },
     getNoteList: function (isRender = false)
     {
@@ -19,7 +39,11 @@ var note = {
             perPage: listObj.perPage,
             page: listObj.page,
             offset: listObj.offset,
-            total: listObj.total
+            total: listObj.total,
+            Search: $("#filterSearch").val(),
+            Sort: $("#filterSort").val(),
+            DateFrom: $("#filterDateFrom").val(),
+            DateTo: $("#filterDateTo").val()
         }
         $.ajax(
             {
@@ -36,7 +60,7 @@ var note = {
                         const $container = $("#noteListContainer");
                         $container.empty();
 
-                        console.log(res.notes)
+                        console.log("Response from server:", res);
 
                         if (res.notes && res.notes.length > 0) {
                             res.notes.forEach(n => {
@@ -88,11 +112,11 @@ var note = {
                             pagination.render();
                         }
                     } else {
-                        app.notify ? app.notify('Error', res.message || 'Server error') : alert(res.message || 'Server error');
+                        app.notify("error", res.message);
                     }
                 },
-                error: function (xhr, status, err) {
-                    console.error('AJAX error', status, err);
+                error: function () {
+                    window.location.reload();
                 }
             });
     },

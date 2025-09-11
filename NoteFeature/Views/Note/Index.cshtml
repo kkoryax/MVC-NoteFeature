@@ -30,8 +30,8 @@
 <!-- filter -->
 <form method="get" asp-action="Index" class="row g-3 mb-4">
     <div class="col-md-4">
-        <label>Search</label>
-        <input class="form-control" type="text" name="SearchTitle" value="@filter.SearchTitle" placeholder="Search by title" />
+        <label for="filterSearch">Search</label>
+        <input id="filterSearch" class="form-control" type="text" name="SearchTitle" value="@filter.SearchTitle" placeholder="Search by title" />
     </div>
 
     @* <div class="col-md-2 mb-2">
@@ -54,12 +54,12 @@
 
     <div class="col-md-2">
         <label>From</label>
-        <input class="form-control" type="date" name="FromDate" value="@fromDateStr" />
+        <input id="filterDateFrom" class="form-control" type="date" name="FromDate" value="@fromDateStr" />
     </div>
 
     <div class="col-md-2">
         <label>To</label>   
-        <input class="form-control" type="date" name="ToDate" value="@toDateStr" />
+        <input id="filterDateTo" class="form-control" type="date" name="ToDate" value="@toDateStr" />
     </div>
 
     <div class="col-md-1 d-flex align-items-end">

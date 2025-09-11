@@ -119,11 +119,29 @@ namespace NoteFeature.Repositories
 
             var perPage = pagination.PerPage;
             var skip = pagination.Offset;
-            //var search = pagination.Search ?? string.Empty;
+            var search = pagination.Search ?? string.Empty;
+
+            var sort = pagination.Sort ?? "CreatedAt desc";
+
+            var fromDate = pagination.FromDate.Date;
+            var toDate = pagination.ToDate.HasValue ? pagination.ToDate.Value.Date : DateTime.MaxValue.Date;
 
             var query = _db.Notes.AsQueryable();
 
             query = query.Where(n => n.IsDeleted == false);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(n => n.Title.Contains(search) || n.Content.Contains(search));
+            }
+            if (fromDate != null)
+            {
+                query = query.Where(n => n.CreatedAt.Date >= fromDate);
+            }
+            if (toDate != DateTime.MaxValue.Date)
+            {
+                query = query.Where(n => n.CreatedAt.Date <= toDate);
+            }
 
             Notes.Total = query.Count();
 

@@ -115,7 +115,7 @@ namespace NoteFeature.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetNoteList([FromQuery] NotePagination pagination)
+        public JsonResult GetNoteList(NotePagination pagination)
         {
             try
             {

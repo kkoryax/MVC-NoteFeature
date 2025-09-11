@@ -1,4 +1,5 @@
 ﻿using NoteFeature.Models.NoteModel;
+using System.Drawing;
 //Pagination template from P'TAR project
 
 namespace NoteFeature.Models.NotePagination
@@ -9,6 +10,12 @@ namespace NoteFeature.Models.NotePagination
         public int Page { get; set; } = 1;
         public int Offset { get; set; } = 0;
         public int Total { get; set; } = 0;
+
+        //Parameter for filtering
+        public string? Search { get; set; }
+        public string? Sort { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
 
         // Display
         public List<Note> Notes { get; set; } = new List<Note>(); //GET Note data
