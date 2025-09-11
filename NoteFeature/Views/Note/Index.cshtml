@@ -77,8 +77,8 @@
 }
 else
 {
-    <div class="row g-4">
-        @foreach (var note in Model.Notes)
+    <div id="noteListContainer" class="row g-4">
+        @* @foreach (var note in Model.Notes)
         {
             <div class="col-12 col-sm-6 col-md-4">
                 <div class="card h-100 shadow-sm border-0 note-card">
@@ -122,8 +122,27 @@ else
                     </div>
                 </div>
             </div>
-        }
+        } *@
+        <!-- Pagination template from P'TAR project -->
     </div>
+        <div class="">
+            <div class="row mt-3">
+                <div class="col-12 col-sm-6 d-flex justify-content-center justify-content-md-start">
+                    <label for="paginationPerPageSelect" class="mr-2 text-gray-700 align-self-center">Rows per page:</label>
+                    <select id="paginationPerPageSelect" class="px-3 py-2 border rounded-lg" style="border-radius: 7px; margin-left: 5px;">
+                    <option value="6" selected>6</option>
+                    <option value="15">15</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 d-flex mt-4 mt-sm-0 mt-md-0 justify-content-center justify-content-md-end">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm d-flex align-items-center mb-0" id="pagination">
+                            <!-- ปุ่มจะถูกสร้างโดย JavaScript -->
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
 }
 
 <!-- Delete Confirmation Modal -->
@@ -169,6 +188,17 @@ else
             form.action = '/Note/Delete/' + noteId;
             
             message.textContent = 'Are you sure you want to delete the note "' + noteTitle + '"?';
+        });
+    </script>
+
+    <!-- Script Pagination from P'TAR Project -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/pagination.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+    <script src="~/js/pagination.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+    <script src="~/js/note.js?ver=@DateTime.Now.Ticks.ToString()"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            note.init();
         });
     </script>
 }

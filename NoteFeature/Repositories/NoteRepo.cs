@@ -2,6 +2,7 @@
 using NoteFeature.Data;
 using NoteFeature.Models.FilterModel;
 using NoteFeature.Models.NoteModel;
+using NoteFeature.Models.NotePagination;
 using System.Globalization;
 
 namespace NoteFeature.Repositories
@@ -15,6 +16,7 @@ namespace NoteFeature.Repositories
         void UpdateNote(Note note);
         void DeleteNote(Note note);
         List<Note> FilterNote(IndexFilterModel filter);
+        NotePagination GetListNotePagination(NotePagination pagination);
     }
     public class NoteRepo : INoteRepo
     {
@@ -110,6 +112,29 @@ namespace NoteFeature.Repositories
             }
 
             return query.ToList();
+        }
+        public NotePagination GetListNotePagination(NotePagination pagination)
+        {
+            NotePagination Notes = new NotePagination();
+
+            var perPage = pagination.PerPage;
+            var skip = pagination.Offset;
+            //var search = pagination.Search ?? string.Empty;
+
+            var query = _db.Notes.AsQueryable();
+
+            query = query.Where(n => n.IsDeleted == false);
+
+            Notes.Total = query.Count();
+
+            var result = query
+                        .Skip(skip)
+                        .Take(perPage)
+                        .AsEnumerable()
+                        .ToList();
+            Notes.Notes = result;
+
+            return Notes;
         }
     }
 }

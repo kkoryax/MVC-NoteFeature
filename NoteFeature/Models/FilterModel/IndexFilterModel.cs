@@ -7,5 +7,7 @@
         public string? SortDirection { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+
+
     }
 }

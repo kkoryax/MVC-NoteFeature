@@ -5,6 +5,9 @@ using NoteFeature.Models.FilterModel;
 using NoteFeature.Models.ViewModels;
 using NoteFeature.Models.NoteModel;
 using NoteFeature.Repositories;
+using NoteFeature.Models.NotePagination;
+using NoteFeature.Controllers.Base;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace NoteFeature.Controllers
 {
@@ -36,6 +39,7 @@ namespace NoteFeature.Controllers
             else
             {
                 notes = _noteRepo.GetAllNote();
+                //notes = _noteRepo.GetListNotePagination();
             }
 
             var ViewModel = new IndexViewModel
@@ -105,5 +109,46 @@ namespace NoteFeature.Controllers
             var note = _noteRepo.GetNoteByID(id.Value).FirstOrDefault();
             return View(note);
         }
+        protected string InnerException(Exception ex)
+        {
+            return (ex.InnerException != null) ? InnerException(ex.InnerException) : ex.Message;
+        }
+
+        [HttpGet]
+        public JsonResult GetNoteList([FromQuery] NotePagination pagination)
+        {
+            try
+            {
+                if (pagination == null) pagination = new NotePagination();
+                pagination.Offset = pagination.Page <= 1 ? 0 : pagination.Offset;
+
+                var result = _noteRepo.GetListNotePagination(pagination);
+
+                var notesDto = result.Notes.Select(n => new
+                {
+                    Id = n.Id,
+                    Title = n.Title,
+                    Content = n.Content,
+                    CreatedAt = n.CreatedAt.ToString("yyyy-MM-dd HH:mm"),
+                    UpdatedAt = n.UpdatedAt.HasValue ? n.UpdatedAt.Value.ToString("yyyy-MM-dd HH:mm") : null
+                }).ToList();
+
+                return Json(new
+                {
+                    success = true,
+                    notes = notesDto,
+                    total = result.Total
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = InnerException(ex)
+                });
+            }
+        }
+
     }
 }

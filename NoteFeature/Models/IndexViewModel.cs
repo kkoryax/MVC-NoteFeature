@@ -8,5 +8,6 @@ namespace NoteFeature.Models.ViewModels
     {
         public List<Note> Notes { get; set; } = new List<Note>();
         public IndexFilterModel Filter { get; set; } = new IndexFilterModel();
+        //public NotePagination.NotePagination Pagination { get; set; } = new NotePagination.NotePagination();
     }
 }
